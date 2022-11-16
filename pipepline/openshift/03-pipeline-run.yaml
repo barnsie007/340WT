@@ -11,10 +11,10 @@ spec:
       claimName: shared-task-storage
   params:
   - name: repo-url
-    value: https://github.com/{YOUR_GIT_ID}/db2app1war
+    value: https://github.com/barnsie007/340WT
   - name: branch-name
     value: main
   - name: repo-dockerfile
     value: Dockerfile
   - name: image-url
-    value: image-registry.openshift-image-registry.svc:5000/myproject/db2app1war:latest
+    value: image-registry.openshift-image-registry.svc:5000/wt/db2:latest
