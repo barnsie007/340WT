@@ -6,25 +6,17 @@
 
 # Scan a WebSphere Application Server and all profiles
 
-***
-
 ./bin/transformationadvisor -w <WEBSPHERE_HOME_DIR>
 
 # Scan a WebSphere Application Server Profile and don't upload to Transformation Advisor
-
-***
 
 ./bin/transformationadvisor -w <WEBSPHERE_HOME_DIR> -p <PROFILE_NAME> --no-upload
 
 # Scan a WebSphere Application Server Profile and Transformation Advisor will skip the specified applications
 
-***
-
 ./bin/transformationadvisor -w <WEBSPHERE_HOME_DIR> -p <PROFILE_NAME> --skip-applications  app1 app2 app3
 
 # Scan a WebSphere Application Server Profile and Transformation Advisor will skip the specified applications that are listed in a file
-
-***
 
 ./bin/transformationadvisor -w <WEBSPHERE_HOME_DIR> -p <PROFILE_NAME> --skip-applications-file /tmp/applicationsToScan.txt
 
