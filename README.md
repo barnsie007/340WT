@@ -1,7 +1,5 @@
 # Scan a WebSphere Application Server Profile
 
-***
-
 ./bin/transformationadvisor -w <WEBSPHERE_HOME_DIR> -p <PROFILE_NAME>
 
 ./bin/transformationadvisor -w <WEBSPHERE_HOME_DIR> -p <PROFILE_NAME> -p <PROFILE_NAME>
