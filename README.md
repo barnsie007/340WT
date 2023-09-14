@@ -1,24 +1,17 @@
-### Scan a WebSphere Application Server Profile
+### Generating reports for Transformation Advisor with the Binary Scanner
 
-./bin/transformationadvisor -w <WEBSPHERE_HOME_DIR> -p <PROFILE_NAME>
+To download and install the Binary Scanner, click on the link below
 
-./bin/transformationadvisor -w <WEBSPHERE_HOME_DIR> -p <PROFILE_NAME> -p <PROFILE_NAME>
+https://www.ibm.com/support/pages/node/6250913
 
-### Scan a WebSphere Application Server and all profiles
+# Migation Toolkit for Application Binaries overview
 
-./bin/transformationadvisor -w <WEBSPHERE_HOME_DIR>
+https://www.ibm.com/docs/en/wamt?topic=migration-toolkit-application-binaries
 
-### Scan a WebSphere Application Server Profile and don't upload to Transformation Advisor
+# Run the Binary Scanner that generates a Data collection for Transformation Advisor
 
-./bin/transformationadvisor -w <WEBSPHERE_HOME_DIR> -p <PROFILE_NAME> --no-upload
+https://www.ibm.com/docs/en/wamt?topic=binaries-transformation-advisor-data-collection
 
-### Scan a WebSphere Application Server Profile and Transformation Advisor will skip the specified applications
-
-./bin/transformationadvisor -w <WEBSPHERE_HOME_DIR> -p <PROFILE_NAME> --skip-applications  app1 app2 app3
-
-### Scan a WebSphere Application Server Profile and Transformation Advisor will skip the specified applications that are listed in a file
-
-./bin/transformationadvisor -w <WEBSPHERE_HOME_DIR> -p <PROFILE_NAME> --skip-applications-file /tmp/applicationsToScan.txt
 
 
 
