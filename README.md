@@ -1,7 +1,7 @@
 # Create Liberty image that connects to a Secure DB2
 
 1.      Follow this link to enable secure DB2
-      *  https://www.ibm.com/docs/en/order-management-sw/10.0?topic=encryption-configuring-db2-secure-sockets-layer-ssl
+      * https://www.ibm.com/docs/en/order-management-sw/10.0?topic=encryption-configuring-db2-secure-sockets-layer-ssl
 
 2.      Get the certificate from the DB2 key file (key file is key.p12)
        * /opt/ibm/db2/V11.1/gskit/bin/gsk8capicmd_64 -cert -extract -db "key.p12" -pw "passw0rd" -label "jcdb2p12" -target "db2.arm"
@@ -15,12 +15,12 @@
 6.      Remove the SSL and Keystore elements from the server xml file (/root/ta/src/main/liberty/config) and add in username and password for the db2 instance
 
 7.      On OCP environment, create a project
-      *  oc new-project ssldb2
+      * oc new-project ssldb2
 
 8.      Create a trust file called db2.p12 for example
-      *  keytool -import -alias db2certssl -file db2.arm -keystore db2.p12 -storetype pkcs12
-      *  give it a password when prompted , for example, passw0rd
-      *  type 'yes' when prompted to trust this certificate
+      * keytool -import -alias db2certssl -file db2.arm -keystore db2.p12 -storetype pkcs12
+      * give it a password when prompted , for example, passw0rd
+      * type 'yes' when prompted to trust this certificate
 
 9.      Create a secret using the file you created in step 8 above
       a - oc create secret generic db2secret --from-file=db2.p12
