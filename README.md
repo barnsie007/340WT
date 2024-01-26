@@ -6,68 +6,70 @@
 - Get the certificate from the DB2 key file (key file is key.p12)
   -    /opt/ibm/db2/V11.1/gskit/bin/gsk8capicmd_64 -cert -extract -db "key.p12" -pw "passw0rd" -label "jcdb2p12" -target "db2.arm"
 
-3.      Download the Migration bundle from Transformation Advisor
+- Download the Migration bundle from Transformation Advisor
 
-4.      Place the application binary into the target directory and remove the placeholder file
+- Place the application binary into the target directory and remove the placeholder file
 
-5.      Place the db2 driver into src/main/liberty/lib and remove the placeholder file
+- Place the db2 driver into src/main/liberty/lib and remove the placeholder file
 
-6.      Remove the SSL and Keystore elements from the server xml file (/root/ta/src/main/liberty/config) and add in username and password for the db2 instance
+- Remove the SSL and Keystore elements from the server xml file (/root/ta/src/main/liberty/config) and add in username and password for the db2 instance
 
-7.      On OCP environment, create a project
-      - oc new-project ssldb2
+- On OCP environment, create a project
+  -    oc new-project ssldb2
 
-8.      Create a trust file called db2.p12 for example
-      - keytool -import -alias db2certssl -file db2.arm -keystore db2.p12 -storetype pkcs12
-      - give it a password when prompted , for example, passw0rd
-      - type 'yes' when prompted to trust this certificate
+- Create a trust file called db2.p12 for example
+  -    keytool -import -alias db2certssl -file db2.arm -keystore db2.p12 -storetype pkcs12
+  -    give it a password when prompted , for example, passw0rd
+  -    type 'yes' when prompted to trust this certificate
 
-9.      Create a secret using the file you created in step 8 above
-      a - oc create secret generic db2secret --from-file=db2.p12
+- Create a secret using the file you created in step 8 above
+  -    oc create secret generic db2secret --from-file=db2.p12
 
-10.     Need to create truststore.xml file that contains the password that we defined in step 8 above and location of the db2.p12 ( see below)
+- Need to create truststore.xml file that contains the password that we defined in step 8 above and location of the db2.p12 ( see below)
 
-11.     Create a secret for this truststore xml file
-      a - oc create secret generic db2trustfile --from-file=truststore.xml
+- Create a secret for this truststore xml file
+  -    oc create secret generic db2trustfile --from-file=truststore.xml
 
-12.     Once the secrets have been created you can delete the db2.p12 and the truststore.xml from the file system
+- Once the secrets have been created you can delete the db2.p12 and the truststore.xml from the file system
 
-13.     Build the WebSphere Liberty image
-      a - podman build -t db2:latest .
+- Build the WebSphere Liberty image
+  -    podman build -t db2:latest .
 
-14.     Push the image to registry (push to the OpenShift Registry)
-      a - sudo podman login -u kubeadmin -p <tokenID> <openshift registry>  --tls-verify=false
-      b - podman tag localhost/db2:latest default-route-openshift-image-registry.apps.tasvt.cp.fyre.ibm.com/ssldb2/db2:latest
-      c - sudo podman push < openshift registry >/ssldb2/db2:latest --tls-verify=false
+- Push the image to registry (push to the OpenShift Registry)
+  -    sudo podman login -u kubeadmin -p <tokenID> <openshift registry>  --tls-verify=false
+  -    podman tag localhost/db2:latest default-route-openshift-image-registry.apps.tasvt.cp.fyre.ibm.com/ssldb2/db2:latest
+  -    sudo podman push < openshift registry >/ssldb2/db2:latest --tls-verify=false
 
-15.     Update the application-cr.yaml file  (see below)
-      a - Add the container image
-      b - Add the volume mounts for the secrets you created above
+- Update the application-cr.yaml file  (see below)
+  -    Add the container image
+  -    Add the volume mounts for the secrets you created above
 
-16.     Add in the db2 password overlays/dev/db2app1war-secret.yaml
-      a - Get the base64 value echo -n "db2inst1" | base64
+- Add in the db2 password overlays/dev/db2app1war-secret.yaml
+  -    Get the base64 value echo -n "db2inst1" | base64
 
-17.     Deploy the application
-      a - oc apply -k overlays/dev
+- Deploy the application
+  -    oc apply -k overlays/dev
 
-18.     Check application
-      a - oc get pods
+- Check application
+  -    oc get pods
 
-19.     Click on routes and click the route for the application and add the context root for the application
+- Click on routes and click the route for the application and add the context root for the application
 
 
 
 Truststore.xml   - point to where db2.p12 file
 -----------------------------------------------------------
+```
 <server description="Default Server">
  <ssl id="defaultSSLConfig" keyStoreRef="defaultKeyStore" trustStoreRef="defaultTrustStore" trustDefaultCerts="${SEC_TLS_TRUSTDEFAULTCERTS}"/>
  <keyStore id="defaultTrustStore" location="${server.output.dir}/resources/security/db2/db2.p12" type="PKCS12" password="passw0rd" />
  <variable name="SEC_TLS_TRUSTDEFAULTCERTS" defaultValue="true"/>
 </server>
+```
 
 Application Cr Yaml
 ----------------------------------------
-
+```
 # Generated by IBM TransformationAdvisor
 # Mon Dec 11 17:24:04 UTC 2023
 kind: WebSphereLibertyApplication
@@ -111,3 +113,4 @@ spec:
     #edition: IBM WebSphere Application Server
     #metric: Virtual Processor Core (VPC)
     #productEntitlementSource: IBM WebSphere Hybrid Edition
+```
