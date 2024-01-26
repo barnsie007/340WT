@@ -1,6 +1,6 @@
 # Create Liberty image that connects to a Secure DB2
 
-1.      Follow this link to enable secure DB2
+1      Follow this link to enable secure DB2
       - https://www.ibm.com/docs/en/order-management-sw/10.0?topic=encryption-configuring-db2-secure-sockets-layer-ssl
 
 2.      Get the certificate from the DB2 key file (key file is key.p12)
